@@ -19,5 +19,11 @@ void matrix_animation_prev(void);
 /** Selects an animation by index; indexes outside {@code 0..MATRIX_ANIMATION_COUNT-1} are ignored. */
 void matrix_animation_select(uint8_t index);
 
+/** Raises the matrix brightness by one step. */
+void matrix_animation_brightness_up(void);
+
+/** Lowers the matrix brightness by one step. */
+void matrix_animation_brightness_down(void);
+
 /** Toggles shuffle mode, in which a random animation follows each completed loop. */
 void matrix_animation_toggle_shuffle(void);

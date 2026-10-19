@@ -31,13 +31,14 @@ time, interleaved with row tears, noise and flashes:
 
 The `&anim` behavior switches between them from the keymap:
 `&anim ANIM_NEXT`, `&anim ANIM_PREV`, `&anim ANIM_SHUFFLE` (toggle random
-order after every loop) and `&anim ANIM_SEL(n)` for a fixed index. The
+order after every loop), `&anim ANIM_BRI_UP` / `&anim ANIM_BRI_DOWN` for
+brightness and `&anim ANIM_SEL(n)` for a fixed index. The
 constants come from `config/include/dt-bindings/soroka/anim.h`. The selected
-animation and the shuffle flag persist across reboots. `&ext_power EP_TOG`
+animation, the shuffle flag and the brightness persist across reboots. `&ext_power EP_TOG`
 switches the matrix power off and on.
 
-Brightness is capped by `MATRIX_BRIGHTNESS` in `matrix_animation.c`. If the
-image has every second row mirrored, set `MATRIX_SERPENTINE` to `1`.
+Brightness steps are listed in `BRIGHTNESS_LEVELS` in `matrix_animation.c`.
+If the image has every second row mirrored, set `MATRIX_SERPENTINE` to `1`.
 
 ## Choose physical layout
 

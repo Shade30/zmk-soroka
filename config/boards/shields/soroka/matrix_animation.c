@@ -23,7 +23,6 @@
 #define MATRIX_H 5
 #define MATRIX_LED_COUNT (MATRIX_W * MATRIX_H)
 #define FRAME_TIME_MS 40
-#define MATRIX_BRIGHTNESS 40
 #define MATRIX_SERPENTINE 0
 #define SETTINGS_SAVE_DELAY_MS 2000
 
@@ -55,6 +54,9 @@ static const uint8_t PAL_GREY_RED[] = {COL_DIM, COL_GREY, COL_RED_DIM};
 static const uint8_t PAL_GREY_BLUE[] = {COL_DIM, COL_GREY, COL_BLUE_DIM};
 static const uint8_t PAL_RED_BLUE[] = {COL_DIM, COL_RED_DIM, COL_BLUE_DIM};
 static const uint8_t PAL_DIGIT_NOISE[] = {COL_BG, COL_RED, COL_GREY};
+
+static const uint8_t BRIGHTNESS_LEVELS[] = {6, 12, 20, 40, 64, 96, 140, 200, 255};
+#define DEFAULT_BRIGHTNESS_LEVEL 3
 
 static const struct device *const strip = DEVICE_DT_GET(STRIP_NODE);
 static struct color frame[MATRIX_LED_COUNT];
@@ -334,16 +336,16 @@ static void rx_lock(uint32_t phase, uint32_t local_ms) {
 
 static void white_static(uint32_t phase, uint32_t local_ms) {
     for (int i = 0; i < MATRIX_LED_COUNT; i++) {
-        uint32_t k = 820 + rnd_below(180);
-        if (chance(60)) {
-            k = 300 + rnd_below(400);
+        uint32_t k = 650 + rnd_below(350);
+        if (chance(100)) {
+            k = 100 + rnd_below(400);
         }
         frame[i] = scale(col(COL_WHITE), k);
     }
     if (chance(40)) {
         tear(frame, 1);
     }
-    if (chance(12)) {
+    if (chance(20)) {
         int y = rnd_below(MATRIX_H);
         for (int x = 0; x < MATRIX_W; x++) {
             px_set(frame, x, y, col(COL_DIM));
@@ -353,7 +355,7 @@ static void white_static(uint32_t phase, uint32_t local_ms) {
 
 static uint32_t breathe_level(uint32_t phase) {
     int32_t tri = phase < 500 ? (int32_t)phase * 2 : (int32_t)(1000 - phase) * 2;
-    return (uint32_t)(tri * tri * (3000 - 2 * tri) / 1000000000);
+    return (uint32_t)(tri * tri * (3000 - 2 * tri) / 1000000);
 }
 
 static void red_breathe(uint32_t phase, uint32_t local_ms) {
@@ -452,7 +454,8 @@ static struct animation animations[MATRIX_ANIMATION_COUNT] = {
 static struct {
     uint8_t index;
     uint8_t shuffle;
-} state;
+    uint8_t brightness;
+} state = {.brightness = DEFAULT_BRIGHTNESS_LEVEL};
 
 static int64_t anim_start_ms;
 
@@ -520,7 +523,7 @@ static size_t physical_index(size_t row, size_t column) {
 static void push_frame(void) {
     for (int y = 0; y < MATRIX_H; y++) {
         for (int x = 0; x < MATRIX_W; x++) {
-            struct color c = scale(frame[y * MATRIX_W + x], MATRIX_BRIGHTNESS * 1000 / 255);
+            struct color c = scale(frame[y * MATRIX_W + x], BRIGHTNESS_LEVELS[state.brightness] * 1000 / 255);
             pixels[physical_index(y, x)] = (struct led_rgb){.r = c.r, .g = c.g, .b = c.b};
         }
     }
@@ -568,6 +571,9 @@ static int settings_set(const char *name, size_t len, settings_read_cb read_cb, 
         if (state.index >= MATRIX_ANIMATION_COUNT) {
             state.index = 0;
         }
+        if (state.brightness >= ARRAY_SIZE(BRIGHTNESS_LEVELS)) {
+            state.brightness = DEFAULT_BRIGHTNESS_LEVEL;
+        }
         return MIN(rc, 0);
     }
     return -ENOENT;
@@ -602,6 +608,20 @@ void matrix_animation_select(uint8_t index) {
     }
     state.index = index;
     restart_current();
+}
+
+void matrix_animation_brightness_up(void) {
+    if (state.brightness + 1 < ARRAY_SIZE(BRIGHTNESS_LEVELS)) {
+        state.brightness++;
+        schedule_save();
+    }
+}
+
+void matrix_animation_brightness_down(void) {
+    if (state.brightness > 0) {
+        state.brightness--;
+        schedule_save();
+    }
 }
 
 void matrix_animation_toggle_shuffle(void) {

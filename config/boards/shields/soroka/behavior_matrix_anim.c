@@ -27,6 +27,12 @@ static int on_keymap_binding_pressed(struct zmk_behavior_binding *binding,
     case ANIM_SHUFFLE:
         matrix_animation_toggle_shuffle();
         break;
+    case ANIM_BRI_UP:
+        matrix_animation_brightness_up();
+        break;
+    case ANIM_BRI_DOWN:
+        matrix_animation_brightness_down();
+        break;
     default:
         if (binding->param1 >= ANIM_SEL_BASE) {
             matrix_animation_select(binding->param1 - ANIM_SEL_BASE);
@@ -46,6 +52,8 @@ static const struct behavior_parameter_value_metadata param_values[] = {
     {.display_name = "Next", .type = BEHAVIOR_PARAMETER_VALUE_TYPE_VALUE, .value = ANIM_NEXT},
     {.display_name = "Previous", .type = BEHAVIOR_PARAMETER_VALUE_TYPE_VALUE, .value = ANIM_PREV},
     {.display_name = "Toggle shuffle", .type = BEHAVIOR_PARAMETER_VALUE_TYPE_VALUE, .value = ANIM_SHUFFLE},
+    {.display_name = "Brightness up", .type = BEHAVIOR_PARAMETER_VALUE_TYPE_VALUE, .value = ANIM_BRI_UP},
+    {.display_name = "Brightness down", .type = BEHAVIOR_PARAMETER_VALUE_TYPE_VALUE, .value = ANIM_BRI_DOWN},
     {.display_name = "Select",
      .type = BEHAVIOR_PARAMETER_VALUE_TYPE_RANGE,
      .range = {.min = ANIM_SEL_BASE, .max = ANIM_SEL_BASE + MATRIX_ANIMATION_COUNT - 1}},
