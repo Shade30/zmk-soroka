@@ -7,13 +7,11 @@
 #include <errno.h>
 #include <zephyr/device.h>
 #include <zephyr/devicetree.h>
-#include <zephyr/drivers/gpio.h>
 #include <zephyr/drivers/led_strip.h>
 #include <zephyr/init.h>
 #include <zephyr/kernel.h>
 
 #define STRIP_NODE DT_NODELABEL(led_strip)
-#define POWER_NODE DT_NODELABEL(matrix_power)
 #define MATRIX_WIDTH 5
 #define MATRIX_HEIGHT 5
 #define MATRIX_LED_COUNT (MATRIX_WIDTH * MATRIX_HEIGHT)
@@ -44,7 +42,6 @@ static const uint8_t heart_mask[MATRIX_HEIGHT][MATRIX_WIDTH] = {
 };
 
 static const struct device *const strip = DEVICE_DT_GET(STRIP_NODE);
-static const struct gpio_dt_spec matrix_power = GPIO_DT_SPEC_GET(POWER_NODE, gpios);
 static struct led_rgb pixels[MATRIX_LED_COUNT];
 static uint16_t breath_phase;
 static uint16_t hue_phase;
@@ -141,13 +138,8 @@ static void matrix_animation_step(struct k_work *work) {
 K_WORK_DELAYABLE_DEFINE(matrix_animation_work, matrix_animation_step);
 
 static int matrix_animation_init(void) {
-    if (!device_is_ready(strip) || !device_is_ready(matrix_power.port)) {
+    if (!device_is_ready(strip)) {
         return -ENODEV;
-    }
-
-    int err = gpio_pin_configure_dt(&matrix_power, GPIO_OUTPUT_ACTIVE);
-    if (err != 0) {
-        return err;
     }
 
     k_work_schedule(&matrix_animation_work, K_MSEC(100));

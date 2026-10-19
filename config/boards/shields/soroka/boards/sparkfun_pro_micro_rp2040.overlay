@@ -48,11 +48,8 @@
     status = "okay";
 };
 / {
-    matrix_power_leds {
-        compatible = "gpio-leds";
-
-        matrix_power: matrix_power {
-            gpios = <&gpio0 19 GPIO_ACTIVE_HIGH>; /* WS2812_CE */
-        };
+    EXT_POWER {
+        compatible = "zmk,ext-power-generic";
+        control-gpios = <&gpio0 19 GPIO_ACTIVE_HIGH>;
     };
 };
