@@ -96,17 +96,17 @@
 //┣━━━━━━━━━━━┻━┳━━━━━┻━┳━━━━━┻━┳━━━━━┻━┳━━━━━┻━┳━━━━━┻━┳━━━━━┻━┳━━━━━┻━┳━━━━━┻━┳━━━━━┻━┳━━━━━┻━┳━━━━━┻━┳━━━━━┻━━━━━━━┫
 //┃    CTRL     ┃       ┃ LEFT  ┃ DOWN  ┃ RIGHT ┃       ┃       ┃       ┃       ┃       ┃ LEFT  ┃ RIGHT ┃    ENTER    ┃
 //┣━━━━━━━━━━━━━┻━━━┳━━━┻━━━┳━━━┻━━━┳━━━┻━━━┳━━━┻━━━┳━━━┻━━━┳━━━┻━━━┳━━━┻━━━┳━━━┻━━━┳━━━┻━━━┳━━━┻━━━┳━━━┻━━━━━┳━━━━━━━┫
-//┃      SHIFT      ┃       ┃ PG DN ┃       ┃       ┃  END  ┃       ┃       ┃       ┃  END  ┃ DOWN  ┃  PG DN  ┃ AD/+  ┃
+//┃      SHIFT      ┃       ┃ PG DN ┃       ┃       ┃  END  ┃       ┃       ┃       ┃  END  ┃ DOWN  ┃  PG DN  ┃ -//-  ┃
 //┣━━━━━━━━━┳━━━━━━━┻━┳━━━━━┻━━━┳━━━┻━━━━━━━┻━━━━━━━┻━━━━━━━┻━━━━━━━┻━━━━━━━┻━━━━━━━┻━━━┳━━━┻━━━━━┳━┻━━━━━━━┳━┻━━━━━━━┫   ┏━━━━━━━┓
-//┃  CTRL   ┃   ALT   ┃   GUI   ┃                         -//-                          ┃   GUI   ┃   ALT   ┃  MENU   ┃   ┃ MUTE  ┃
+//┃  CTRL   ┃   ALT   ┃   GUI   ┃                        AD/SPC                         ┃   GUI   ┃   ALT   ┃  MENU   ┃   ┃ MUTE  ┃
 //┗━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━┛   ┗━━━━━━━┛
 
             bindings = <
 
                 &kp TAB &none &kp PG_UP &none &none &kp HOME &none &none &none &none &none &kp HOME &kp UP &kp PG_UP
                 &kp LCTRL &none &kp LEFT &kp DOWN &kp RIGHT &none &none &none &none &none &kp LEFT &kp RIGHT &kp ENTER
-                &kp LSHFT &none &kp PG_DN &none &none &kp END &none &none &none &kp END &kp DOWN &kp PG_DN &lt ADJ PLUS
-                &kp LCTRL &kp LALT &kp LGUI &trans &kp LGUI &kp LALT &kp K_APP &kp C_MUTE
+                &kp LSHFT &none &kp PG_DN &none &none &kp END &none &none &none &kp END &kp DOWN &kp PG_DN &trans
+                &kp LCTRL &kp LALT &kp LGUI &lt ADJ SPACE &kp LGUI &kp LALT &kp K_APP &kp C_MUTE
             >;
             sensor-bindings = <&inc_dec_kp LEFT RIGHT>;
         };
