@@ -20,6 +20,16 @@
 &split_space_3_1_3_layout { transform = <&split_space_3_1_3_transform>; };
 
 / {
+    behaviors {
+        anim: behavior_matrix_anim {
+            compatible = "zmk,behavior-matrix-anim";
+            #binding-cells = <1>;
+            display-name = "LED Animation";
+        };
+    };
+};
+
+/ {
     model = "soroka";
     compatible = "kapee1,soroka";
 

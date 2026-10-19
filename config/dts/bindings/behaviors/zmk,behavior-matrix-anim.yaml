@@ -1,0 +1,7 @@
+# SPDX-License-Identifier: MIT
+
+description: Switches the Soroka LED matrix animation
+
+compatible: "zmk,behavior-matrix-anim"
+
+include: one_param.yaml

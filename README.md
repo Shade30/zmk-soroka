@@ -11,17 +11,33 @@ GitHub Actions is pinned to the stable ZMK `v0.3` release. Download the UF2
 artifact from a successful workflow run, enter the RP2040 bootloader, and copy
 the UF2 file to the mounted `RPI-RP2` drive.
 
-## RGB picture and animation
+## LED matrix animations
 
-The animation is generated at run time by `render_procedural_heart()` in
-`config/boards/shields/soroka/matrix_animation.c`. The `heart_mask` array
-defines the 5x5 shape and relative pixel intensity. `FRAME_TIME_MS`, the
-brightness limits, and the phase controls at the top of the file adjust the
-frame rate, breathing cycle, and color cycle.
+The 5x5 WS2812 matrix plays short animations inspired by SIGNALIS, written
+in `config/boards/shields/soroka/matrix_animation.c`. One glyph is shown at a
+time, interleaved with row tears, noise and flashes:
 
-The default mapping assumes that all rows run left-to-right, matching the old
-firmware. If the image has every second row mirrored, set
-`MATRIX_SERPENTINE` to `1`.
+| # | Animation | What it shows |
+|---|-----------|---------------|
+| 0 | ACHTUNG / STIRB | Falke's text flashes, one letter at a time |
+| 1 | Number station | S-23 radio codes digit by digit |
+| 2 | Red eye, saccades | Gaze jumping in all directions |
+| 3 | Red eye, scan | Gaze walking around the matrix |
+| 4 | Red eye, stare | Trembling stare, rapid blinks |
+| 5 | LSTR | The unit code, red letters and a blue R |
+| 6 | Receiver sweep | Spectrum noise, signal lock, WAKE UP |
+| 7 | White static | Steady white with grain |
+| 8 | Red breathe | Red fading in and out with noise |
+
+The `&anim` behavior switches between them from the keymap:
+`&anim ANIM_NEXT`, `&anim ANIM_PREV`, `&anim ANIM_SHUFFLE` (toggle random
+order after every loop) and `&anim ANIM_SEL(n)` for a fixed index. The
+constants come from `config/include/dt-bindings/soroka/anim.h`. The selected
+animation and the shuffle flag persist across reboots. `&ext_power EP_TOG`
+switches the matrix power off and on.
+
+Brightness is capped by `MATRIX_BRIGHTNESS` in `matrix_animation.c`. If the
+image has every second row mirrored, set `MATRIX_SERPENTINE` to `1`.
 
 ## Choose physical layout
 
