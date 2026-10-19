@@ -25,8 +25,8 @@
 
     chosen {
         zmk,kscan = &kscan0;
-        zmk,physical-layout = &split_space_1_225_275_1_layout;
-     };
+        zmk,physical-layout = &default_layout;
+    };
 
     default_transform: keymap_transform_0 {
         compatible = "zmk,matrix-transform";

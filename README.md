@@ -25,9 +25,20 @@ firmware. If the image has every second row mirrored, set
 
 ## Choose physical layout
 
-The selected layout is `split_space_1_225_275_1`. Other supported layouts are
-defined under `config/boards/shields/soroka/layouts`.
-  
-  ------
+Supported layouts are defined under `config/boards/shields/soroka/layouts`:
+
+- `default_layout`: one 7U space bar (the shield default);
+- `split_space_1_225_275_1_layout`: 1U + 2.25U + 2.75U + 1U split space;
+- `split_space_3_1_3_layout`: 3U + 1U + 3U split space.
+
+To switch, choose the layout in your keymap and lay the bindings out for it:
+
+```
+/ {
+    chosen {
+        zmk,physical-layout = &split_space_3_1_3_layout;
+    };
+};
+```
 
 ![Physical Layouts](/kle/soroka_matrix.png)
