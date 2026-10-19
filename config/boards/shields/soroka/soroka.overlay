@@ -6,3 +6,6 @@
 
 #include "soroka.dtsi"
 
+&left_encoder {
+    status = "okay";
+};

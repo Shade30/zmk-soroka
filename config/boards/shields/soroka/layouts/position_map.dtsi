@@ -1,0 +1,7 @@
+/ {
+        layouts_soroka_position_map: layouts_soroka_map {
+                compatible = "zmk,physical-layout-position-map";
+
+                complete;
+        };
+};
